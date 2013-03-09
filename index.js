@@ -5,7 +5,6 @@
   FALL_DELAY = 50;
   FADE_DELAY = 100;
   FADE_ALPHA = 0.05;
-  width = height = null;
   resize = function(){
     width = canvas.width = d.documentElement.clientWidth;
     height = canvas.height = d.documentElement.clientHeight;

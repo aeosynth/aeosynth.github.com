@@ -4,7 +4,7 @@ FALL_DELAY  = 50
 FADE_DELAY  = 100
 FADE_ALPHA  = 0.05
 
-width = height = null
+var width, height
 
 resize = ->
   width  := canvas.width  = d.documentElement.clientWidth
@@ -19,7 +19,7 @@ spawn = ->
   setTimeout spawn, SPAWN_DELAY
 
 fall = (x, y) ->
-  ctx.fillStyle = 'lime'
+  ctx.fillStyle = \lime
   ctx.fillText getChar!, x, y
   if y < height
     setTimeout fall, FALL_DELAY, x, y + PX
@@ -36,7 +36,7 @@ ctx = canvas.getContext \2d
 charset = [\a to \z, \A to \Z, 0 to 9]
 charL = charset.length
 
-window.addEventListener 'resize', resize
+window.addEventListener \resize, resize
 
 resize!
 fade!
