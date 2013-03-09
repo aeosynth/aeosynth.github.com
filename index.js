@@ -6,8 +6,8 @@
   FADE_DELAY = 100;
   FADE_ALPHA = 0.05;
   resize = function(){
-    width = canvas.width = d.documentElement.clientWidth;
-    height = canvas.height = d.documentElement.clientHeight;
+    var ref$, ref1$;
+    ref1$ = (canvas.width = (ref$ = d.documentElement).clientWidth, canvas.height = ref$.clientHeight, canvas), width = ref1$.width, height = ref1$.height;
     return ctx.font = PX + "px monospace";
   };
   getChar = function(){
@@ -20,8 +20,10 @@
     return setTimeout(spawn, SPAWN_DELAY);
   };
   fall = function(x, y){
-    ctx.fillStyle = 'lime';
-    ctx.fillText(getChar(), x, y);
+    var x0$;
+    x0$ = ctx;
+    x0$.fillStyle = 'lime';
+    x0$.fillText(getChar(), x, y);
     if (y < height) {
       return setTimeout(fall, FALL_DELAY, x, y + PX);
     }

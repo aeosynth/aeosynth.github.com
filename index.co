@@ -7,8 +7,7 @@ FADE_ALPHA  = 0.05
 var width, height
 
 resize = ->
-  width  := canvas.width  = d.documentElement.clientWidth
-  height := canvas.height = d.documentElement.clientHeight
+  {width, height} := canvas <<< d.documentElement{width: clientWidth, height: clientHeight}
   ctx.font = "#{PX}px monospace"
 
 getChar = -> charset[Math.random! * charL | 0]
@@ -19,8 +18,9 @@ spawn = ->
   setTimeout spawn, SPAWN_DELAY
 
 fall = (x, y) ->
-  ctx.fillStyle = \lime
-  ctx.fillText getChar!, x, y
+  ctx
+    &fillStyle = \lime
+    &fillText getChar!, x, y
   if y < height
     setTimeout fall, FALL_DELAY, x, y + PX
 
