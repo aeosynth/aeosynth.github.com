@@ -1,0 +1,43 @@
+PX = 16
+SPAWN_DELAY = 75
+FALL_DELAY  = 50
+FADE_DELAY  = 100
+FADE_ALPHA  = 0.05
+
+width = height = null
+
+resize = ->
+  width  := canvas.width  = d.documentElement.clientWidth
+  height := canvas.height = d.documentElement.clientHeight
+  ctx.font = "#{PX}px monospace"
+
+getChar = -> charset[Math.random! * charL | 0]
+
+spawn = ->
+  x = Math.random! * width / PX | 0
+  fall x * PX, PX
+  setTimeout spawn, SPAWN_DELAY
+
+fall = (x, y) ->
+  ctx.fillStyle = 'lime'
+  ctx.fillText getChar!, x, y
+  if y < height
+    setTimeout fall, FALL_DELAY, x, y + PX
+
+fade = ->
+  ctx.fillStyle = "rgba(0, 0, 0, #FADE_ALPHA)"
+  ctx.fillRect 0, 0, width, height
+  setTimeout fade, FADE_DELAY
+
+d = document
+canvas = d.querySelector \canvas
+ctx = canvas.getContext \2d
+
+charset = [\a to \z, \A to \Z, 0 to 9]
+charL = charset.length
+
+window.addEventListener 'resize', resize
+
+resize!
+fade!
+spawn!
