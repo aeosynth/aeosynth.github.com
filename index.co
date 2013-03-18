@@ -1,43 +1,41 @@
-PX = 16
-SPAWN_DELAY = 75
-FALL_DELAY  = 50
-FADE_DELAY  = 100
-FADE_ALPHA  = 0.05
-
-var width, height
-
-resize = ->
-  {width, height} := canvas <<< d.documentElement{width: clientWidth, height: clientHeight}
-  ctx.font = "#{PX}px monospace"
-
-getChar = -> charset[Math.random! * charL | 0]
-
-spawn = ->
-  x = Math.random! * width / PX | 0
-  fall x * PX, PX
-  setTimeout spawn, SPAWN_DELAY
-
-fall = (x, y) ->
-  ctx
-    &fillStyle = \lime
-    &fillText getChar!, x, y
-  if y < height
-    setTimeout fall, FALL_DELAY, x, y + PX
-
-fade = ->
-  ctx.fillStyle = "rgba(0, 0, 0, #FADE_ALPHA)"
-  ctx.fillRect 0, 0, width, height
-  setTimeout fade, FADE_DELAY
-
-d = document
-canvas = d.querySelector \canvas
+{width, height} = document
+cols = width  / 10 | 0
+rows = height / 10 | 0
+canvas <<<< { width, height }
 ctx = canvas.getContext \2d
+  &translate width, 0
+  &scale -1 1
+r = Math.random
 
-charset = [\a to \z, \A to \Z, 0 to 9]
-charL = charset.length
+write = (-rows * r! | 0 for i til cols)
+zero  = (-rows * r! | 0 for i til cols)
+chars = ('' for i til cols)
 
-window.addEventListener \resize, resize
+step = ->
+  write :=
+    for y, x of write
+      c = String.fromCharCode 12448 + r! * 96
+      ctx
+        &fillStyle = \#0f0
+        &fillText chars[x], x * 10, (y - 1) * 10
+        chars[x] = c
+      if y < r! * rows * 100
+        ctx
+          &fillStyle = \#000
+          &fillRect x * 10, (y - 1) * 10, 10, 10
+          &fillStyle = \#afa
+          &fillText c, x * 10, y * 10
+        y + 1
+      else
+        0
 
-resize!
-fade!
-spawn!
+  ctx.fillStyle = \#000
+  zero :=
+    for y, x of zero
+      ctx.fillRect x * 10, (y - 1) * 10, 10, 10
+      if y < r! * rows * 100
+        y + 1
+      else
+        0
+
+setInterval step, 33

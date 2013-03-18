@@ -1,45 +1,71 @@
 (function(){
-  var PX, SPAWN_DELAY, FALL_DELAY, FADE_DELAY, FADE_ALPHA, width, height, resize, getChar, spawn, fall, fade, d, canvas, ctx, charset, charL;
-  PX = 16;
-  SPAWN_DELAY = 75;
-  FALL_DELAY = 50;
-  FADE_DELAY = 100;
-  FADE_ALPHA = 0.05;
-  resize = function(){
-    var ref$, ref1$;
-    ref1$ = (canvas.width = (ref$ = d.documentElement).clientWidth, canvas.height = ref$.clientHeight, canvas), width = ref1$.width, height = ref1$.height;
-    return ctx.font = PX + "px monospace";
-  };
-  getChar = function(){
-    return charset[Math.random() * charL | 0];
-  };
-  spawn = function(){
-    var x;
-    x = Math.random() * width / PX | 0;
-    fall(x * PX, PX);
-    return setTimeout(spawn, SPAWN_DELAY);
-  };
-  fall = function(x, y){
-    var x0$;
-    x0$ = ctx;
-    x0$.fillStyle = 'lime';
-    x0$.fillText(getChar(), x, y);
-    if (y < height) {
-      return setTimeout(fall, FALL_DELAY, x, y + PX);
+  var width, height, cols, rows, x0$, ctx, r, write, res$, i, zero, res1$, chars, res2$, step;
+  width = document.width, height = document.height;
+  cols = width / 10 | 0;
+  rows = height / 10 | 0;
+  importAll$(canvas, {
+    width: width,
+    height: height
+  });
+  x0$ = ctx = canvas.getContext('2d');
+  x0$.translate(width, 0);
+  x0$.scale(-1, 1);
+  r = Math.random;
+  res$ = [];
+  for (i = 0; i < cols; ++i) {
+    res$.push(-rows * r() | 0);
+  }
+  write = res$;
+  res1$ = [];
+  for (i = 0; i < cols; ++i) {
+    res1$.push(-rows * r() | 0);
+  }
+  zero = res1$;
+  res2$ = [];
+  for (i = 0; i < cols; ++i) {
+    res2$.push('');
+  }
+  chars = res2$;
+  step = function(){
+    var res$, x, len$, y, c, x1$, x2$;
+    res$ = [];
+    for (x = 0, len$ = write.length; x < len$; ++x) {
+      y = write[x];
+      c = String.fromCharCode(12448 + r() * 96);
+      x1$ = ctx;
+      x1$.fillStyle = '#0f0';
+      x1$.fillText(chars[x], x * 10, (y - 1) * 10);
+      chars[x] = c;
+      if (y < r() * rows * 100) {
+        x2$ = ctx;
+        x2$.fillStyle = '#000';
+        x2$.fillRect(x * 10, (y - 1) * 10, 10, 10);
+        x2$.fillStyle = '#afa';
+        x2$.fillText(c, x * 10, y * 10);
+        res$.push(y + 1);
+      } else {
+        res$.push(0);
+      }
     }
+    write = res$;
+    ctx.fillStyle = '#000';
+    return zero = (function(){
+      var ref$, len$, results$ = [];
+      for (x = 0, len$ = (ref$ = zero).length; x < len$; ++x) {
+        y = ref$[x];
+        ctx.fillRect(x * 10, (y - 1) * 10, 10, 10);
+        if (y < r() * rows * 100) {
+          results$.push(y + 1);
+        } else {
+          results$.push(0);
+        }
+      }
+      return results$;
+    }());
   };
-  fade = function(){
-    ctx.fillStyle = "rgba(0, 0, 0, " + FADE_ALPHA + ")";
-    ctx.fillRect(0, 0, width, height);
-    return setTimeout(fade, FADE_DELAY);
-  };
-  d = document;
-  canvas = d.querySelector('canvas');
-  ctx = canvas.getContext('2d');
-  charset = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  charL = charset.length;
-  window.addEventListener('resize', resize);
-  resize();
-  fade();
-  spawn();
+  setInterval(step, 33);
+  function importAll$(obj, src){
+    for (var key in src) obj[key] = src[key];
+    return obj;
+  }
 }).call(this);
