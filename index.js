@@ -27,34 +27,34 @@
   }
   chars = res2$;
   step = function(){
-    var res$, x, len$, y, c, x1$, x2$;
+    var res$, x, len$, y, c;
+    ctx.fillStyle = '#000';
     res$ = [];
-    for (x = 0, len$ = write.length; x < len$; ++x) {
-      y = write[x];
-      c = String.fromCharCode(12448 + r() * 96);
-      x1$ = ctx;
-      x1$.fillStyle = '#0f0';
-      x1$.fillText(chars[x], x * 10, (y - 1) * 10);
-      chars[x] = c;
-      if (y < r() * rows * 100) {
-        x2$ = ctx;
-        x2$.fillStyle = '#000';
-        x2$.fillRect(x * 10, (y - 1) * 10, 10, 10);
-        x2$.fillStyle = '#afa';
-        x2$.fillText(c, x * 10, y * 10);
+    for (x = 0, len$ = zero.length; x < len$; ++x) {
+      y = zero[x];
+      ctx.fillRect(x * 10, (y - 1) * 10, 10, 10);
+      if (y < r() * rows * 99) {
         res$.push(y + 1);
       } else {
         res$.push(0);
       }
     }
-    write = res$;
-    ctx.fillStyle = '#000';
-    return zero = (function(){
-      var ref$, len$, results$ = [];
-      for (x = 0, len$ = (ref$ = zero).length; x < len$; ++x) {
+    zero = res$;
+    return write = (function(){
+      var ref$, len$, x1$, x2$, results$ = [];
+      for (x = 0, len$ = (ref$ = write).length; x < len$; ++x) {
         y = ref$[x];
-        ctx.fillRect(x * 10, (y - 1) * 10, 10, 10);
-        if (y < r() * rows * 100) {
+        c = String.fromCharCode(12448 + r() * 96);
+        x1$ = ctx;
+        x1$.fillStyle = '#0f0';
+        x1$.fillText(chars[x], x * 10, (y - 1) * 10);
+        chars[x] = c;
+        if (y < r() * rows * 99) {
+          x2$ = ctx;
+          x2$.fillStyle = '#000';
+          x2$.fillRect(x * 10, (y - 1) * 10, 10, 10);
+          x2$.fillStyle = '#afa';
+          x2$.fillText(c, x * 10, y * 10);
           results$.push(y + 1);
         } else {
           results$.push(0);

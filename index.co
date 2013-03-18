@@ -12,28 +12,29 @@ zero  = (-rows * r! | 0 for i til cols)
 chars = ('' for i til cols)
 
 step = ->
+  ctx.fillStyle = \#000
+  zero :=
+    for y, x of zero
+      ctx.fillRect x * 10, (y - 1) * 10, 10, 10
+      if y < r! * rows * 99
+        y + 1
+      else
+        0
+
   write :=
     for y, x of write
+      # half width katakana
       c = String.fromCharCode 12448 + r! * 96
       ctx
         &fillStyle = \#0f0
         &fillText chars[x], x * 10, (y - 1) * 10
         chars[x] = c
-      if y < r! * rows * 100
+      if y < r! * rows * 99
         ctx
           &fillStyle = \#000
           &fillRect x * 10, (y - 1) * 10, 10, 10
           &fillStyle = \#afa
           &fillText c, x * 10, y * 10
-        y + 1
-      else
-        0
-
-  ctx.fillStyle = \#000
-  zero :=
-    for y, x of zero
-      ctx.fillRect x * 10, (y - 1) * 10, 10, 10
-      if y < r! * rows * 100
         y + 1
       else
         0
