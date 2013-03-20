@@ -7,8 +7,8 @@ ctx = canvas.getContext \2d
   &scale -1 1
 r = Math.random
 
-write = (-rows * r! | 0 for i til cols)
-zero  = (-rows * r! | 0 for i til cols)
+write = (r! * 2 * rows | 0 for i til cols)
+zero  = (r! * 2 * rows | 0 for i til cols)
 chars = ('' for i til cols)
 
 step = ->
@@ -16,10 +16,10 @@ step = ->
   zero :=
     for y, x of zero
       ctx.fillRect x * 10, (y - 1) * 10, 10, 10
-      if y < r! * rows * 99
-        y + 1
+      if r! * rows | 0
+        (y + 1) % (2 * rows)
       else
-        0
+        r! * 2 * rows | 0
 
   write :=
     for y, x of write
@@ -29,14 +29,14 @@ step = ->
         &fillStyle = \#0f0
         &fillText chars[x], x * 10, (y - 1) * 10
         chars[x] = c
-      if y < r! * rows * 99
+      if r! * rows | 0
         ctx
           &fillStyle = \#000
           &fillRect x * 10, (y - 1) * 10, 10, 10
           &fillStyle = \#afa
           &fillText c, x * 10, y * 10
-        y + 1
+        (y + 1) % (2 * rows)
       else
-        0
+        r! * 2 * rows | 0
 
 setInterval step, 33

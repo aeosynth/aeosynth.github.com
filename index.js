@@ -13,12 +13,12 @@
   r = Math.random;
   res$ = [];
   for (i = 0; i < cols; ++i) {
-    res$.push(-rows * r() | 0);
+    res$.push(r() * 2 * rows | 0);
   }
   write = res$;
   res1$ = [];
   for (i = 0; i < cols; ++i) {
-    res1$.push(-rows * r() | 0);
+    res1$.push(r() * 2 * rows | 0);
   }
   zero = res1$;
   res2$ = [];
@@ -33,10 +33,10 @@
     for (x = 0, len$ = zero.length; x < len$; ++x) {
       y = zero[x];
       ctx.fillRect(x * 10, (y - 1) * 10, 10, 10);
-      if (y < r() * rows * 99) {
-        res$.push(y + 1);
+      if (r() * rows | 0) {
+        res$.push((y + 1) % (2 * rows));
       } else {
-        res$.push(0);
+        res$.push(r() * 2 * rows | 0);
       }
     }
     zero = res$;
@@ -49,15 +49,15 @@
         x1$.fillStyle = '#0f0';
         x1$.fillText(chars[x], x * 10, (y - 1) * 10);
         chars[x] = c;
-        if (y < r() * rows * 99) {
+        if (r() * rows | 0) {
           x2$ = ctx;
           x2$.fillStyle = '#000';
           x2$.fillRect(x * 10, (y - 1) * 10, 10, 10);
           x2$.fillStyle = '#afa';
           x2$.fillText(c, x * 10, y * 10);
-          results$.push(y + 1);
+          results$.push((y + 1) % (2 * rows));
         } else {
-          results$.push(0);
+          results$.push(r() * 2 * rows | 0);
         }
       }
       return results$;
