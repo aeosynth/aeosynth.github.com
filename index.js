@@ -1,6 +1,6 @@
 (function(){
   var width, height, cols, rows, x0$, ctx, r, write, res$, i, zero, res1$, chars, res2$, step;
-  width = document.width, height = document.height;
+  width = this.innerWidth, height = this.innerHeight;
   cols = width / 10 | 0;
   rows = height / 10 | 0;
   importAll$(canvas, {

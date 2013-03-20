@@ -1,4 +1,4 @@
-{width, height} = document
+{innerWidth:width, innerHeight:height} = @
 cols = width  / 10 | 0
 rows = height / 10 | 0
 canvas <<<< { width, height }
